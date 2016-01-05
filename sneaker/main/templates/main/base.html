@@ -1,0 +1,42 @@
+<!doctype html>
+{% load staticfiles %}
+<html>
+<head>
+<title>赤腳朝天</title>
+<meta charset=utf-8>
+<link rel=stylesheet href={% static 'main/css/main.css' %}>
+</head>
+<body>
+<div id=wrapper>
+<header>
+<div id=headerLeft>
+<h1><img id=logo src={% static 'main/img/title.jpg' %} alt=赤腳朝天>一步步夢想 一步步堅持 在腳下蔓延</h1>
+<br>
+</div>
+<div id=headerRight>
+<p>{{like}}</p>
+{% if messages %}
+ {% for message in messages %}
+ <p {% if message.tags %} class={{message.tags}} {% endif %}>{{message}}</p>
+ {% endfor %}
+{% endif %}
+<ul>
+  <li><a href={% url 'track:track' %}>一步步腳印</a></li>
+  <li><a href={% url 'bake:bake' %}>精靈的美食</a></li>
+  <li><a href={% url 'deeds:deeds' %}>精靈的視野</a></li>
+  <li><a href={% url 'main:main' %}>回首頁</a></li>
+  {% if user.is_authenticated %}
+ <p><a href={% url 'account:userLogout' %}>登出 ({{user.username}})</a></p>
+{% else %}
+  <p><a href={% url 'account:register' %}>註冊</a></p>  
+  <p><a href={% url 'account:userLogin' %}>登入</a></p>
+ {% endif %}
+</ul>
+
+</div>
+</div>
+{% block content %}
+{% endblock %}
+</header>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{% extends 'main/main.html' %}
+{% block content %}
+{% load staticfiles %}
+<!doctype html>
+{% load staticfiles %}
+<html>
+<head>
+</head>
+<body>
+{% if categories %}
+ <h2>餐廳美食分類：</h2>
+ <table>
+ <tr><th>分類名稱</th><th></th><th></th></tr>
+ {% for category in categories %}
+ <tr>
+ <td>
+ {% if user.is_authenticated %}
+ <a href={% url 'wiki:category' category.id %}>{{category.name}}</a>
+ {% endif %}
+ </td>
+ <td>
+ {% if user.is_authenticated %} 
+ <form action={% url 'wiki:updateCategory' category.id %}>
+ <input type="submit" value=修改>
+ </form>
+ {% endif %}
+ </td>
+ <td>
+ {% if user.is_authenticated %} 
+ <form method=post action={% url 'wiki:deleteCategory' category.id %}>
+ <input type=submit value=刪除>
+ {% csrf_token %}
+  {% endif %}
+ </form>
+ </td>
+ </tr>
+ {% endfor %}
+ </table>
+{% else %}
+ <p><strong>目前尚未設定程式語言分類。</strong></p>
+{% endif %}
+&nbsp;&nbsp;&nbsp;&nbsp;
+<p><a href={% url 'wiki:addCategory' %}>新增美食</a></p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p><a href={% url 'main:main' %}>回首頁</a></p>
+</body>
+</html>
+{% endblock %}
